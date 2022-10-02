@@ -1,0 +1,52 @@
+/* Write your CSS code here */
+.login-form-container{
+display: flex;
+justify-content: center;
+flex-direction: column;
+align-items: center;
+}
+.registration-title{
+    color: #ea580c;
+}
+.form-contationr{
+    height: 50vh;
+    width: 35vw;
+    padding: 2rem;
+    box-shadow: 5px 10px 8px gray;
+}
+label{
+    color:black;
+    font-size: 12px;
+     /* margin-top: 1rem; */
+
+}
+input{
+    height: 2rem;
+    width: 100%;
+    padding: 10px;
+   
+}
+.placeholder{
+    color:gray;
+}
+.error-message-1, .error-message-2 {
+    color: #ea580c;
+}
+button{
+    height: 2rem;
+    width: 5rem;
+    background-color: #ea580c;
+    color: white;
+    text-align: center;
+    margin-left: 36%;
+    border-width: 0;
+border-radius: 4px;
+}
+.input-container{
+    display: flex;
+    flex-direction: column;
+}
+.error-message-1, .error-message-2{
+    margin-bottom: 1rem;
+    font-size: 10px;
+}
