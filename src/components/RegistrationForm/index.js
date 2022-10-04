@@ -1,4 +1,3 @@
-// Write your JS code here
 import {Component} from 'react'
 import './index.css'
 
@@ -6,95 +5,130 @@ class RegistrationForm extends Component {
   state = {
     firstName: '',
     lastName: '',
-    isTrue: false,
+    cssColourFirst: '',
+    cssColourLast: '',
+    firstNamePara: false,
+    lastNamePara: false,
+    onSubmit: false,
   }
 
-  submitSuccess = () => {
-    this.setState({isTrue: false})
-    //   return (
-    //   <div className="login-form-container">
-    //     <h1 className="registration-title">Registration</h1>
-    //     <div className="form-contationr">
-    //     <img src="https://assets.ccbp.in/frontend/react-js/success-icon-img.png" />
-    //     </div>
-    //   </div>
-    //   )
-  }
-
-  submitForm = async event => {
-    event.preventDefault()
-    const {firstName, lastName} = this.state
-    const userDetails = {firstName, lastName}
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(userDetails),
-    }
-    const url = 'https://apis.ccbp.in'
-    const response = await fetch(url, options)
-    const data = await response.json()
-    console.log('data', data)
-    if (response.ok === true) {
-      this.submitSuccess()
-    }
-  }
-
-  onChangeFirstName = event => {
+  onChangeFirst = event => {
     this.setState({firstName: event.target.value})
   }
 
-  onChangeLastName = event => {
+  onChangeLast = event => {
     this.setState({lastName: event.target.value})
   }
 
-  onSubmitLastName = () => {
-    const {lastName} = this.state
-    return (
-      <>
-        <label htmlFor="lastName">LAST NAME</label>
-        <input
-          type="text"
-          id="lastName"
-          value={lastName}
-          placeholder="last Name"
-          onChange={this.onChangeLastName}
-        />
-        <span className="error-message-2">k </span>
-      </>
-    )
+  eventHandlerFirst = () => {
+    const {firstName} = this.state
+
+    if (firstName === '') {
+      this.setState({cssColourFirst: 'cssColourFirst', firstNamePara: true})
+    } else {
+      this.setState({cssColourFirst: '', firstNamePara: false})
+    }
   }
 
-  onSubmitFirstName = () => {
-    const {firstName} = this.state
-    return (
-      <>
-        <label htmlFor="firstName">FIRST NAME</label>
-        <input
-          className="input"
-          type="text"
-          id="firstName"
-          value={firstName}
-          placeholder="last Name"
-          onChange={this.onChangeFirstName}
-        />
-        <span className="error-message-1">k </span>
-      </>
-    )
+  eventHandlerLast = () => {
+    const {lastName} = this.state
+
+    if (lastName === '') {
+      this.setState({cssColourLast: 'cssColourLast', lastNamePara: true})
+    } else {
+      this.setState({cssColourLast: '', lastNamePara: false})
+    }
+  }
+
+  onSubmitForm = event => {
+    event.preventDefault()
+
+    const {firstName, lastName} = this.state
+
+    if (firstName === '' || lastName === '') {
+      if (firstName === '') {
+        this.setState({cssColourFirst: 'cssColourFirst', firstNamePara: true})
+      }
+      if (lastName === '') {
+        this.setState({cssColourLast: 'cssColourLast', lastNamePara: true})
+      }
+    } else {
+      this.setState({onSubmit: true})
+    }
+  }
+
+  onClickSubmitAnotherResponse = () => {
+    this.setState({onSubmit: false, firstName: '', lastName: ''})
   }
 
   render() {
-    const {firstName, lastName} = this.state
+    const {
+      firstName,
+      lastName,
+      cssColourFirst,
+      cssColourLast,
+      onSubmit,
+      firstNamePara,
+      lastNamePara,
+    } = this.state
     return (
-      <div className="login-form-container">
-        <h1 className="registration-title">Registration</h1>
-        <div className="form-contationr">
-          <form onSubmit={this.submitForm}>
-            <div className="input-container">{this.onSubmitFirstName()}</div>
-            <div className="input-container">{this.onSubmitLastName()}</div>
-            <button type="submit">Submit</button>
-          </form>
+      <div className="bg-container">
+        <h1 className="main-heading">Registration</h1>
+        <div className="sub-container">
+          {onSubmit ? (
+            <>
+              {' '}
+              <img
+                src="https://assets.ccbp.in/frontend/react-js/success-icon-img.png"
+                alt="success"
+                className="success-image"
+              />
+              <p>Submitted Successfully</p>
+              <button
+                type="button"
+                className="submit-button"
+                onClick={this.onClickSubmitAnotherResponse}
+              >
+                Submit Another Response
+              </button>
+            </>
+          ) : (
+            <>
+              <form className="form-container" onSubmit={this.onSubmitForm}>
+                <label htmlFor="firstName" className="label">
+                  FIRST NAME
+                </label>
+                <input
+                  id="firstName"
+                  onBlur={this.eventHandlerFirst}
+                  value={firstName}
+                  placeholder="First name"
+                  onChange={this.onChangeFirst}
+                  className={`first ${cssColourFirst}`}
+                />
+                {firstNamePara && <p className="error-message">Required</p>}
+                <label htmlFor="lastName" className="label">
+                  LAST NAME
+                </label>
+                <input
+                  id="lastName"
+                  onBlur={this.eventHandlerLast}
+                  value={lastName}
+                  placeholder="Last name"
+                  onChange={this.onChangeLast}
+                  className={`first ${cssColourLast}`}
+                />
+                {lastNamePara && <p className="error-message">Required</p>}
+                <button type="submit" className="btn">
+                  Submit
+                </button>
+              </form>
+            </>
+          )}
         </div>
       </div>
     )
   }
 }
+
 export default RegistrationForm
